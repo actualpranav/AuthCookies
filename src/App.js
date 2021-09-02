@@ -24,7 +24,6 @@ function App() {
       <CookiesProvider>
         <CookieCheck />
       </CookiesProvider>
-
       <Login />
       {/*  */}
       <button onClick={() => handleOnClick(facebookProvider)}>facebook</button>
