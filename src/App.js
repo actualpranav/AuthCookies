@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { facebookProvider, googleProvider } from "./config/authMethod";
+import socialMediaAuth from "./service/auth";
+import CookieCheck from "./CookieCheck";
+import StyledFirebaseAuth from "react-firebaseui/StyledFirebaseAuth";
+import Login from "./Login";
+
+import { CookiesProvider } from "react-cookie";
 
 function App() {
+  const [username, setUsername] = useState("");
+  const handleOnClick = async (provider) => {
+    const res = await socialMediaAuth(provider);
+    console.log(res);
+
+    setUsername(res.email);
+  };
+
+  // setUsername(user);
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CookiesProvider>
+        <CookieCheck />
+      </CookiesProvider>
+
+      <Login />
+      {/*  */}
+      <button onClick={() => handleOnClick(facebookProvider)}>facebook</button>
+      <button onClick={() => handleOnClick(googleProvider)}>google</button>
+      <p>{username}</p>
     </div>
   );
 }
